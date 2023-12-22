@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "staff-hub"
+version = "0.1.0"
+description = "File for managing python dependancies for this project and its python scripts"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

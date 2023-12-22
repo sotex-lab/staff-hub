@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 mkdocs = "^1.5.3"
 mkdocs-material = "^9.5.2"
+requests = "^2.31.0"
 
 
 [build-system]

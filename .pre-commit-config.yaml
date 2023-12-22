@@ -8,3 +8,10 @@ repos:
       - id: check-merge-conflict
       - id: check-xml
       - id: detect-private-key
+  - repo: local
+    hooks:
+      - id: export-requirements-txt
+        name: Export requirements.txt
+        entry: python scripts/export_requirements_txt.py
+        language: python
+        files: 'pyproject.toml'

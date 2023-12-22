@@ -1,0 +1,13 @@
+site_name: Sotex Staff hub
+site_url: https://sotex-lab.github.io/staff-hub/
+
+theme:
+  name: material
+
+nav:
+  - Home: SETUP.md
+  - Workflows: workflows/README.md
+  - Docs: README.md
+  - Precommit: precommit/README.md
+  - Scripts: scripts/README.md
+  - Source Code: src/README.md

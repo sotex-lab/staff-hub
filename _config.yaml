@@ -2,4 +2,7 @@ title: Sotex staff hub
 description: Staff hub for managing employees
 theme: just-the-docs
 
-url: https://sotex-lab.github.io/staff-hub/
+url: https://sotex-lab.github.io
+baseurl: "staff-hub"
+
+color_scheme: dark

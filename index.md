@@ -1,3 +1,7 @@
+|layout|title|nav_order|description|permalink|
+|------|-----|---------|-----------|---------|
+|default|Home|1||/|
+
 # Staff hub
 
 This is an internal project of [Sotex Solutions](https://www.sotexsolutions.com/) that is used for managing staff. It is maintained by the team and is meant to be beginner friendly whilst keeping a high quality of code.

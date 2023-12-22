@@ -1,0 +1,8 @@
+# [Root level]
+* @sotex-lab/staff
+
+# [Code]
+/src @sotex-lab/students
+
+# [Documentation]
+/docs @sotex-lab/students

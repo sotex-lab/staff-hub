@@ -1,8 +1,9 @@
 name: Build and Deploy MkDocs
 
 on:
-  pull_request:
   push:
+    paths:
+      - 'docs/**'
     branches:
       - main
 

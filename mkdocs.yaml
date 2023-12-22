@@ -5,9 +5,14 @@ theme:
   name: material
 
 nav:
-  - Home: SETUP.md
-  - Workflows: workflows/README.md
-  - Docs: README.md
-  - Precommit: precommit/README.md
-  - Scripts: scripts/README.md
-  - Source Code: src/README.md
+  - Home: index.md
+  - 'User Guide':
+    - 'Workflows docs': workflows/README.md
+    - 'Writing your docs': README.md
+    - 'Structure Precommit docs': precommit/README.md
+    - 'Structure scripts docs': scripts/README.md
+    - 'Source code docs': src/README.md
+  - Workflows: ''
+  - Precommit: ''
+  - Scripts: ''
+  - Source Code: ''

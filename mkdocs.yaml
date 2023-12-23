@@ -1,5 +1,8 @@
 site_name: Sotex Staff hub
 site_url: https://sotex-lab.github.io/staff-hub/
+repo_url: https://github.com/sotex-lab/staff-hub
+repo_name: staff-hub
+site_author: Sotex
 
 theme:
   name: material
@@ -8,11 +11,7 @@ nav:
   - Home: index.md
   - 'User Guide':
     - 'Workflows docs': workflows/README.md
-    - 'Writing your docs': README.md
+    - 'Writing your docs': writing-your-docs.md
     - 'Structure Precommit docs': precommit/README.md
     - 'Structure scripts docs': scripts/README.md
     - 'Source code docs': src/README.md
-  - Workflows: ''
-  - Precommit: ''
-  - Scripts: ''
-  - Source Code: ''

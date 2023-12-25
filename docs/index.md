@@ -11,11 +11,17 @@ This project is meant to be cross platform and should be runnable both from Wind
 3. (Optional) [pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) - python version management system, it isn't supported for Windows, but there is a fork which adds that support [here](https://github.com/pyenv-win/pyenv-win)
 4. [poetry](https://python-poetry.org/docs/#installing-with-the-official-installer) - python dependency management system, used for creating environments and easier porting to different platforms.
 
-### Setup
-#### Pre-commit hooks
+### Pre-commit hooks
 Pre-commit hooks are a great way to have some general checks of your files locally before even creating a commit. Usually they are used to lint the code, automatically format files, and can do much much more.
 ```bash
 # when you have python installed run the following command in the root of repository
 pip install pre-commit
 pre-commit install
 ```
+
+### Setup on Windows
+Since Windows has a lot of incompatibilities with other operating systems its suggested to use [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
+
+To install it here is a great [article](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft on how to do that.
+
+**NOTE**: Onces the setup of WSL is complete you should add all the software from _[List of software needed](#list-of-software-needed)_

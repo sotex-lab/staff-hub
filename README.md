@@ -21,3 +21,9 @@ Pre-commit hooks are a great way to have some general checks of your files local
 pip install pre-commit
 pre-commit install
 ```
+### Setup on Windows
+Since Windows has a lot of incompatibilities with other operating systems its suggested to use [WSL](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux).
+
+To install it here is a great [article](https://learn.microsoft.com/en-us/windows/wsl/install) from Microsoft on how to do that.
+
+**NOTE**: Onces the setup of WSL is complete you should add all the software from _[List of software needed](#list-of-software-needed)_

@@ -67,3 +67,5 @@ nav:
     - 'Structure Precommit docs': precommit/README.md
     - 'Structure scripts docs': scripts/README.md
     - 'Source code docs': src/README.md
+  - 'Specification':
+    - 'Functionality': src/functionality.md

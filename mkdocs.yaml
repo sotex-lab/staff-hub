@@ -69,3 +69,4 @@ nav:
     - 'Source code docs': src/README.md
   - 'Specification':
     - 'Functionality': src/functionality.md
+    - 'Classes':  src/classes.md

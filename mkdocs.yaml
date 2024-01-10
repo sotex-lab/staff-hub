@@ -60,10 +60,12 @@ theme:
     logo: logo
 
 nav:
-  - Home: index.md
-  - 'User Guide':
-    - 'Workflows docs': workflows/README.md
-    - 'Writing your docs': writing-your-docs.md
-    - 'Structure Precommit docs': precommit/README.md
-    - 'Structure scripts docs': scripts/README.md
-    - 'Source code docs': src/README.md
+    - Home: index.md
+    - 'User Guide':
+        - 'Workflows docs': workflows/README.md
+        - 'Writing your docs': writing-your-docs.md
+        - 'Structure Precommit docs': precommit/README.md
+        - 'Structure scripts docs': scripts/README.md
+        - 'Source code docs': src/README.md
+    -  'Specification':
+        - 'Classes':  src/classes.md

@@ -1,10 +1,15 @@
-﻿using StaffHub.Components;
+﻿using Microsoft.EntityFrameworkCore;
+using Persistence.Contexts;
+using StaffHub.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

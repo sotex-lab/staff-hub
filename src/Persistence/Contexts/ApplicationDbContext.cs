@@ -20,6 +20,7 @@ namespace Persistence.Contexts
         public DbSet<Leave> Leaves { get; set; }
         public DbSet<DaysTally> DaysTallies { get; set; }
         public DbSet<PublicHoliday> PublicHolidays { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
     }
 }

@@ -19,5 +19,7 @@ namespace Domain.Models
         public string Description { get; set; }
         [Required]
         public string Status { get; set; }
+
+        public DaysTally? DaysTally { get; set; }
     }
 }

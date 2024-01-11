@@ -9,7 +9,9 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true).Build()
+    .GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

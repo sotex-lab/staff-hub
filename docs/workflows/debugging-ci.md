@@ -13,3 +13,8 @@ When the check fails due to linting one should simply run the following command:
 dotnet format StaffHub.sln
 ```
 After that the tool will automatically lint the solutions and they can push the linted code which will then result in a green check mark on the check.
+
+## Building of docs
+If one was changing the documentation settings or the content, on a MR will run a check if the mkdocs can build the site. If it fails there is an error and the check will fail.
+
+To debug this the easiest is to locally run mkdocs and fix the issue.

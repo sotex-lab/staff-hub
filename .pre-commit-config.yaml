@@ -15,8 +15,3 @@ repos:
         entry: python precommit/export_requirements_txt.py
         language: python
         files: 'pyproject.toml'
-      # - id: lint-dotnet
-      #   name: Lint dotnet code
-      #   entry: dotnet format StaffHub.sln
-      #   language: dotnet
-      #   files: 'src/.*'

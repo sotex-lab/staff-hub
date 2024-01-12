@@ -20,6 +20,6 @@ namespace Domain.Models
         [Required]
         public string Status { get; set; }
 
-        public DaysTally? DaysTally { get; set; }
+        public DaysTally DaysTally { get; set; }
     }
 }

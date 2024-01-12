@@ -123,6 +123,18 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Team1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Team2"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

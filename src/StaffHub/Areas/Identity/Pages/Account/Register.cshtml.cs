@@ -163,8 +163,8 @@ namespace StaffHub.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(
-                        Input.Email,
-                        "Reset Password",
+                        user.Email,
+                        "Your account is created, set your password to start using our service",
                         $"Please set your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     return RedirectToPage("Register");

@@ -9,6 +9,6 @@ namespace Services.Interfaces.Repositories
 {
     public interface ITeamRepository : IRepository<Team>
     {
-        void Update(Team obj);
+
     }
 }

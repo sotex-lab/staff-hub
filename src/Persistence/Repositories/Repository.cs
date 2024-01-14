@@ -80,5 +80,10 @@ namespace Persistence.Repositories
         {
             dbSet.RemoveRange(entities);
         }
+
+        public virtual void Update(T entity)
+        {
+            dbSet.Update(entity);
+        }
     }
 }

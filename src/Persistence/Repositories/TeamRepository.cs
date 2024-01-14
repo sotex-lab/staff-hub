@@ -17,10 +17,5 @@ namespace Persistence.Repositories
         {
             _db = db;
         }
-
-        public void Update(Team obj)
-        {
-            _db.Teams.Update(obj);
-        }
     }
 }

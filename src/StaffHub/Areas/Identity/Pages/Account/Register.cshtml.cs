@@ -132,13 +132,6 @@ namespace StaffHub.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_TeamLead)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_RegularEmployee)).GetAwaiter().GetResult();
-            }
-
             Input = new()
             {
                 Roles = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
@@ -191,15 +184,8 @@ namespace StaffHub.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        //await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToPage("Register");
-                    }
+                    return RedirectToPage("Register");
+                    
                 }
                 foreach (var error in result.Errors)
                 {

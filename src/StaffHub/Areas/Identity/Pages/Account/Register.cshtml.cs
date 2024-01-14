@@ -164,7 +164,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(
                         user.Email,
-                        "Your account is created, set your password to start using our service",
+                        "Sotex Staff hub - Your account is created",
                         $"Please set your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     return RedirectToPage("Register");

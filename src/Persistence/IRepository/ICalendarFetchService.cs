@@ -1,6 +1,6 @@
 ﻿namespace Persistence.IRepository
 {
-    public interface ICalendarFetchService 
+    public interface ICalendarFetchService
     {
         Task GetAndSaveCalendarEventsAsync();
     }

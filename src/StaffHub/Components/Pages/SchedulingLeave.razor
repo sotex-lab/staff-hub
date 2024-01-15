@@ -1,0 +1,174 @@
+@page "/scheduleLeave"
+@inject ApplicationDbContext db
+@inject CalendarFetchService calendarService
+@* @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<IdentityUser> UserManager *@
+@using Domain.Models
+@using Google.Apis.Calendar.v3.Data
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Persistence
+@using Persistence.Contexts
+@using System.Security.Claims
+@using Services
+@rendermode InteractiveServer
+
+<div>
+	<h3>Scheduling leave</h3>
+	<label for="description">Description:</label>
+	<input type="text" id="description" @bind="description" />
+	<br />
+	<label for="startday">Start day:</label>
+	<input type="date" id="startDay" min="@DateTime.Now.ToString("yyyy-MM-dd")" @bind="startDay" />
+	<br />
+	<label for="endDay">End day:</label>
+	<input type="date" id="endDay" min="@DateTime.Now.ToString("yyyy-MM-dd")" @bind="endDay" />
+	<br />
+	<button class="btn btn-primary" @onclick="ScheduleLeave">Schedule leave</button>
+</div>
+
+<br />
+<br />
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+	<p>@errorMessage</p>
+}
+<br />
+<br />
+<button @onclick="InitializeCalendarService">Initialize Calendar Service</button>
+
+
+@code {
+	// private static ClaimsPrincipal User;	
+	// private string userId;
+
+	// protected override async Task OnInitializedAsync()
+	// {
+	// 	var user = await UserManager.GetUserAsync(User);
+	// 	if (user != null)
+	// 	{
+	// 		userId = user.Id;
+	// 	}
+	// }
+
+	string errorMessage = string.Empty;
+
+	CalendarFetchService cfs;
+	private async Task InitializeCalendarService()
+	{
+		cfs = new CalendarFetchService(db);
+		await cfs.GetAndSaveCalendarEventsAsync();
+	}
+
+	DateOnly startDay;
+	DateOnly endDay;
+	string description = "";
+	int workingDays;
+	string status = "Pending";
+	int maxDays = 365;
+
+	private void ScheduleLeave()
+	{
+		var leaves = db.Leaves.ToList();
+		var dayTally = db.DaysTallies.ToList();
+		foreach (var item in leaves)
+		{
+			if (startDay >= item.StartDate && startDay <= item.EndDate)
+				break;
+
+			if (endDay >= item.StartDate && endDay <= item.EndDate)
+				break;
+
+			if (startDay <= item.StartDate && endDay >= item.EndDate)
+				break;
+		}
+
+		if ((endDay.DayNumber - startDay.DayNumber) > maxDays)
+		{
+			errorMessage = "Nije dozvoljeno zakazivanje odmora unapred za više od jedne godine.";
+			return;
+		}
+
+		Leave newLeave = new Leave
+		{
+			Description = description,
+			StartDate = startDay,
+			EndDate = endDay,
+			Status = status
+		};
+
+		// db.Leaves.Add(newLeave);
+		// db.SaveChanges();
+
+		int leaveId = newLeave.Id;
+		int workingDays = GetWorkingDays(startDay, endDay);
+
+		DaysTally newDayTally = new DaysTally
+		{
+			Amount = workingDays,
+			Timestamp = DateTime.Now,
+			Action = description,
+			UserId = "Marko",
+			LeaveId = leaveId
+		};
+
+		// db.DaysTallies.Add(newDayTally);
+		// db.SaveChanges();
+	}
+
+	public int GetWorkingDays(DateOnly startDay, DateOnly endDay)
+	{
+		DateOnly currentDay = startDay;
+
+		while (currentDay <= endDay)
+		{
+			if (IsWeekend(currentDay))
+			{
+				currentDay = NextWeekday(currentDay);
+			}
+			else if (IsHoliday(currentDay))
+			{
+				currentDay = NextDay(currentDay);
+			}
+			else
+			{
+				workingDays++;
+				currentDay = NextDay(currentDay);
+			}
+		}
+
+		return workingDays;
+	}
+
+	private static bool IsWeekend(DateOnly date)
+	{
+		return date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
+	}
+
+	private static DateOnly NextDay(DateOnly date)
+	{
+		return date.AddDays(1);
+	}
+
+	private bool IsHoliday(DateOnly date)
+	{
+		var publicHolidays = db.PublicHolidays.ToList();
+		foreach(var item in publicHolidays)
+		{
+			if (date == item.StartDate)
+				return true;
+		}
+		
+		return false;
+	}
+
+	private static DateOnly NextWeekday(DateOnly date)
+	{
+		DateOnly nextDate = date.AddDays(1);
+		while (IsWeekend(nextDate))
+		{
+			nextDate = nextDate.AddDays(1);
+		}
+		return nextDate;
+	}
+}

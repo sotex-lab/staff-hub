@@ -185,7 +185,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     return RedirectToPage("Register");
-                    
+
                 }
                 foreach (var error in result.Errors)
                 {

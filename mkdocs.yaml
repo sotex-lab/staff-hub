@@ -62,11 +62,12 @@ theme:
 nav:
   - Home: index.md
   - 'User Guide':
-    - 'Workflows docs': workflows/README.md
     - 'Writing your docs': writing-your-docs.md
-    - 'Structure Precommit docs': precommit/README.md
-    - 'Structure scripts docs': scripts/README.md
-    - 'Source code docs': src/README.md
+    - 'Structure Precommit docs': precommit/precommit.md
+    - 'Structure scripts docs': scripts/scripts.md
+    - 'Workflows docs': workflows/workflows.md
+    - 'Source code docs': src/src.md
+    - 'Debugging CI': workflows/debugging-ci.md
   - 'Specification':
     - 'Functionality': src/functionality.md
     - 'Classes':  src/classes.md

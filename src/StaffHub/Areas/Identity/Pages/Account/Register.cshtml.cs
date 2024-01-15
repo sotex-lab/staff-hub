@@ -37,7 +37,6 @@ namespace StaffHub.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ApplicationUserManager _applicationUserManager;
 
         public RegisterModel(
             RoleManager<IdentityRole> roleManager,
@@ -46,8 +45,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IUnitOfWork unitOfWork,
-            ApplicationUserManager applicationUserManager)
+            IUnitOfWork unitOfWork)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -57,7 +55,6 @@ namespace StaffHub.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _unitOfWork = unitOfWork;
-            _applicationUserManager = applicationUserManager;
         }
 
         /// <summary>
@@ -146,7 +143,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
                 user.PhoneNumber = Input.PhoneNumber;
                 user.TeamId = Input.TeamId;
 
-                var result = await _applicationUserManager.CreateAsync(user, Guid.NewGuid().ToString());
+                var result = await _userManager.CreateAsync(user);
 
                 if (result.Succeeded)
                 {

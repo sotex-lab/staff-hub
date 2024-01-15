@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Persistence.Contexts;
 using Persistence.Repositories;
 using Services;
+using Services.Interfaces;
 using Services.Interfaces.Repositories;
 using StaffHub.Components;
 
@@ -21,7 +22,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 
 builder.Services.AddRazorPages();
 
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<ICustomEmailSender, CustomEmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();

@@ -2,6 +2,8 @@
 @using Persistence.Contexts
 @inherits LayoutComponentBase
 @inject ApplicationDbContext db
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject SignInManager<IdentityUser> SignInManager
 
 <div class="page">
     <div class="sidebar">
@@ -10,7 +12,18 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            @if (!SignInManager.IsSignedIn(User))
+            {
+                <NavLink class="nav-link" href="/identity/account/login">
+                    Login
+                </NavLink>
+            }
+            else
+            {
+                <NavLink class="nav-link" href="/identity/account/logout">
+                    Logout
+                </NavLink>
+            }
         </div>
 
         <article class="content px-4">
@@ -24,3 +37,13 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private ClaimsPrincipal User;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        User = authState.User;
+    }
+}

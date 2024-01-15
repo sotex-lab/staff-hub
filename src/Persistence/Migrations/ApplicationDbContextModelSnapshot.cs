@@ -17,7 +17,7 @@ namespace Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -123,6 +123,18 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Team1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Team2"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -150,6 +162,26 @@ namespace Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3659f040-51a9-496a-958d-7030a439012e",
+                            Name = "TeamLead",
+                            NormalizedName = "TEAMLEAD"
+                        },
+                        new
+                        {
+                            Id = "60024229-fb65-490d-abfd-f1369a56f952",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "6e875cce-3fc3-4ad3-87f5-9672ddeaa099",
+                            Name = "RegularEmployee",
+                            NormalizedName = "REGULAREMPLOYEE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

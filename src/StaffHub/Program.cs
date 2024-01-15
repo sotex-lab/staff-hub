@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Persistence;
 using Persistence.Contexts;
+using Persistence.IRepository;
 using Persistence.Repositories;
 using Services;
-using Services.Interfaces;
-using Services.Interfaces.Repositories;
 using StaffHub.Components;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Persistence.IRepository
+﻿namespace Persistence.IRepository
 {
     public interface IUnitOfWork
     {
+        ITeamRepository Team { get; }
         ILeaveRepository Leave { get; }
 
         void Save();

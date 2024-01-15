@@ -97,8 +97,8 @@
 			Status = status
 		};
 
-		// db.Leaves.Add(newLeave);
-		// db.SaveChanges();
+		db.Leaves.Add(newLeave);
+		db.SaveChanges();
 
 		int leaveId = newLeave.Id;
 		int workingDays = GetWorkingDays(startDay, endDay);
@@ -112,8 +112,8 @@
 			LeaveId = leaveId
 		};
 
-		// db.DaysTallies.Add(newDayTally);
-		// db.SaveChanges();
+		db.DaysTallies.Add(newDayTally);
+		db.SaveChanges();
 	}
 
 	public int GetWorkingDays(DateOnly startDay, DateOnly endDay)

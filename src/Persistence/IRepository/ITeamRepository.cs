@@ -2,7 +2,8 @@
 
 namespace Persistence.IRepository
 {
-    public interface IUserRepository : IRepository<User>
+    public interface ITeamRepository : IRepository<Team>
     {
+
     }
 }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Contexts;
-using Services.Interfaces.Repositories;
+using Persistence.IRepository;
 
 namespace Persistence.Repositories
 {

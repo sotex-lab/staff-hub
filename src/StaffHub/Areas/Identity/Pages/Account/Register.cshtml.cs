@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Services;
+using Services.Interfaces;
 using Services.Interfaces.Repositories;
 
 namespace StaffHub.Areas.Identity.Pages.Account
@@ -35,7 +36,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly ICustomEmailSender _customEmailSender;
         private readonly IUnitOfWork _unitOfWork;
 
         public RegisterModel(
@@ -44,7 +45,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
+            ICustomEmailSender customEmailSender,
             IUnitOfWork unitOfWork)
         {
             _roleManager = roleManager;
@@ -53,7 +54,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            _customEmailSender = customEmailSender;
             _unitOfWork = unitOfWork;
         }
 
@@ -159,10 +160,7 @@ namespace StaffHub.Areas.Identity.Pages.Account
                         values: new { area = "Identity", code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(
-                        user.Email,
-                        "Sotex Staff hub - Your account is created",
-                        $"Please set your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _customEmailSender.SendResetPasswordTokenAsync(user.Email, callbackUrl);
 
                     return RedirectToPage("Register");
                 }

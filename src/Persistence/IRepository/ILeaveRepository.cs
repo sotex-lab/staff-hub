@@ -4,6 +4,6 @@ namespace Persistence.IRepository
 {
     public interface ILeaveRepository : IRepository<Leave>
     {
-        void Update(Leave obj);
+        List<Leave> LeaveList();
     }
 }

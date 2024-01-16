@@ -12,23 +12,14 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(ApplicationDbContextFactory.CONNECTION_STRING));
 
-builder.Services.AddScoped<CalendarFetchService>(provider =>
-{
-    var dbContext = provider.GetRequiredService<ApplicationDbContext>();
-    return new CalendarFetchService(dbContext);
-});
-
-
-
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddRazorPages();
-
-builder.Services.AddScoped<ICustomEmailSender, CustomEmailSender>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ICustomEmailSender, CustomEmailSender>();
+builder.Services.AddTransient<CalendarFetchService>();
 
 var app = builder.Build();
-
 
 var dbContext = new ApplicationDbContextFactory().CreateDbContext(new string[] { });
 dbContext.Database.Migrate();

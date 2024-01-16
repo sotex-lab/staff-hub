@@ -1,16 +1,9 @@
 @page "/scheduleLeave"
-@inject ApplicationDbContext db
-@inject CalendarFetchService calendarService
-@* @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject UserManager<IdentityUser> UserManager *@
 @using Domain.Models
-@using Google.Apis.Calendar.v3.Data
-@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Identity
-@using Persistence
-@using Persistence.Contexts
-@using System.Security.Claims
-@using Services
+@using Persistence.IRepository
+@using Persistence.Repositories
+@inject CalendarFetchService calendarService
+@inject IUnitOfWork unitOfWork
 @rendermode InteractiveServer
 
 <div>
@@ -39,24 +32,12 @@
 
 
 @code {
-	// private static ClaimsPrincipal User;	
-	// private string userId;
-
-	// protected override async Task OnInitializedAsync()
-	// {
-	// 	var user = await UserManager.GetUserAsync(User);
-	// 	if (user != null)
-	// 	{
-	// 		userId = user.Id;
-	// 	}
-	// }
-
 	string errorMessage = string.Empty;
 
 	CalendarFetchService cfs;
 	private async Task InitializeCalendarService()
 	{
-		cfs = new CalendarFetchService(db);
+		cfs = new CalendarFetchService(unitOfWork);
 		await cfs.GetAndSaveCalendarEventsAsync();
 	}
 
@@ -69,8 +50,8 @@
 
 	private void ScheduleLeave()
 	{
-		var leaves = db.Leaves.ToList();
-		var dayTally = db.DaysTallies.ToList();
+		var leaves = unitOfWork.Leave.LeaveList();
+		var dayTally = unitOfWork.DayTally.TallyList();
 		foreach (var item in leaves)
 		{
 			if (startDay >= item.StartDate && startDay <= item.EndDate)
@@ -97,8 +78,8 @@
 			Status = status
 		};
 
-		db.Leaves.Add(newLeave);
-		db.SaveChanges();
+		unitOfWork.Leave.Add(newLeave);
+		unitOfWork.Save();
 
 		int leaveId = newLeave.Id;
 		int workingDays = GetWorkingDays(startDay, endDay);
@@ -112,8 +93,8 @@
 			LeaveId = leaveId
 		};
 
-		db.DaysTallies.Add(newDayTally);
-		db.SaveChanges();
+		unitOfWork.DayTally.Add(newDayTally);
+		unitOfWork.Save();
 	}
 
 	public int GetWorkingDays(DateOnly startDay, DateOnly endDay)
@@ -152,7 +133,7 @@
 
 	private bool IsHoliday(DateOnly date)
 	{
-		var publicHolidays = db.PublicHolidays.ToList();
+		var publicHolidays = unitOfWork.PublicHoliday.HolidayList();
 		foreach(var item in publicHolidays)
 		{
 			if (date == item.StartDate)

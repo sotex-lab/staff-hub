@@ -11,9 +11,10 @@ namespace Persistence.Repositories
         {
             _db = db;
         }
-        public void Update(Leave obj)
+
+        public List<Leave> LeaveList()
         {
-            _db.Leaves.Update(obj);
+            return _db.Leaves.ToList();
         }
     }
 }

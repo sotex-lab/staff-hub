@@ -13,11 +13,13 @@ namespace Persistence.Repositories
     {
         private readonly ApplicationDbContext _db;
         public ITeamRepository Team { get; private set; }
+        public IUserRepository User { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Team = new TeamRepository(_db);
+            User = new UserRepository(_db);
         }
 
         public void Save()

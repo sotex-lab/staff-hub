@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Models;
 
 namespace Services.Interfaces.Repositories
 {
-    public interface IUnitOfWork
+    public interface IUserRepository : IRepository<User>
     {
-        ITeamRepository Team { get; }
-        IUserRepository User { get; }
 
-        void Save();
     }
 }

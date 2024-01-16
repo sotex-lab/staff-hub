@@ -9,9 +9,9 @@ using Services.Interfaces.Repositories;
 
 namespace Persistence.Repositories
 {
-    public class TeamRepository : Repository<Team>, ITeamRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
-        public TeamRepository(ApplicationDbContext db) : base(db)
+        public UserRepository(ApplicationDbContext db) : base(db)
         {
         }
     }

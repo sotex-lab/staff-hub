@@ -1,0 +1,106 @@
+@page "/edit-employee/{Id}"
+@attribute [Authorize(Roles = SD.Role_Admin)]
+@rendermode InteractiveServer
+@inject IUnitOfWork _unitOfWork
+@inject UserManager<IdentityUser> _userManager
+@inject RoleManager<IdentityRole> _roleManager
+@inject NavigationManager _navigationManager
+
+@if (User is not null)
+{
+    <div class="container mt-2">
+        <EditForm Model="User" OnSubmit="Update">
+            <DataAnnotationsValidator />
+            <div class="mt-2">
+                <label>Email</label>
+                <InputText @bind-Value="User.Email" class="form-control" disabled />
+            </div>
+            <div class="mt-2">
+                <label>Name</label>
+                <InputText @bind-Value="User.FullName" class="form-control" />
+                <ValidationMessage For="() => User.FullName" />
+            </div>
+            <div class="mt-2">
+                <label>Phone Number</label>
+                <InputText @bind-Value="User.PhoneNumber" class="form-control" />
+            </div>
+            <div class="mt-2">
+                <label>Role</label>
+                <InputSelect @bind-Value="NewRole" class="form-select">
+                    @foreach (var role in Roles)
+                    {
+                        <option value="@role">@role</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="mt-2">
+                <label>Team</label>
+                <InputSelect @bind-Value="User.TeamId" class="form-select">
+                    @foreach (var team in Teams)
+                    {
+                        <option value="@team.Id">@team.Name</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="mt-2 text-center">
+                <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">Update</button>
+            </div>
+        </EditForm>
+    </div>
+}
+else
+{
+    <div class="container mt-2">
+        <h3>Not Found</h3>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    private List<string> Roles { get; set; } = new List<string>();
+    private List<Team> Teams { get; set; } = new List<Team>();
+    private User User { get; set; }
+    private string OldRole { get; set; } = "";
+    private string NewRole { get; set; } = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        PopulateRolesAndTeams();
+        await PopulateUser();
+        await base.OnParametersSetAsync();
+    }
+
+    private void PopulateRolesAndTeams()
+    {
+        Roles = (_roleManager.Roles).Select(x => x.Name).ToList()!;
+        Teams = _unitOfWork.Team.GetAll().ToList();
+    }
+
+    private async Task PopulateUser()
+    {
+        if (Id is not null)
+        {
+            var userFromDb = _unitOfWork.User.Get(x => x.Id == Id, includeProperties: "Team", tracked: true);
+            if (userFromDb is not null)
+            {
+                User = userFromDb;
+                OldRole = (await _userManager.GetRolesAsync(User))[0];
+                NewRole = (await _userManager.GetRolesAsync(User))[0];
+            }
+        }
+    }
+
+    private async Task Update()
+    {
+        _unitOfWork.User.Update(User);
+        if (!String.Equals(OldRole, NewRole))
+        {
+            await _userManager.RemoveFromRoleAsync(User, OldRole);
+            await _userManager.AddToRoleAsync(User, NewRole);
+        }
+        _unitOfWork.Save();
+        _navigationManager.NavigateTo("/employees");
+    }
+
+}

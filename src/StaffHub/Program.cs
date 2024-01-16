@@ -18,6 +18,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICustomEmailSender, CustomEmailSender>();
 builder.Services.AddTransient<ICalendarFetchService, CalendarFetchService>();
+builder.Services.AddHostedService<CronJobService>();
 
 var app = builder.Build();
 

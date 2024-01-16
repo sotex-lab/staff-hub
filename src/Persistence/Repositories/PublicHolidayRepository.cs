@@ -6,10 +6,8 @@ namespace Persistence.Repositories
 {
     public class PublicHolidayRepository : Repository<PublicHoliday>, IPublicHolidayRepository
     {
-        private ApplicationDbContext _db;
         public PublicHolidayRepository(ApplicationDbContext db) : base(db)
         {
-            _db = db;
         }
 
         public int Count()

@@ -2,7 +2,7 @@
 @using Domain.Models
 @using Persistence.IRepository
 @using Persistence.Repositories
-@inject CalendarFetchService calendarService
+@inject ICalendarFetchService calendarService
 @inject IUnitOfWork unitOfWork
 @rendermode InteractiveServer
 
@@ -34,11 +34,9 @@
 @code {
 	string errorMessage = string.Empty;
 
-	CalendarFetchService cfs;
 	private async Task InitializeCalendarService()
 	{
-		cfs = new CalendarFetchService(unitOfWork);
-		await cfs.GetAndSaveCalendarEventsAsync();
+		await calendarService.GetAndSaveCalendarEventsAsync();
 	}
 
 	DateOnly startDay;

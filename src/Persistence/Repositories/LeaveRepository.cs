@@ -6,10 +6,8 @@ namespace Persistence.Repositories
 {
     public class LeaveRepository : Repository<Leave>, ILeaveRepository
     {
-        private ApplicationDbContext _db;
         public LeaveRepository(ApplicationDbContext db) : base(db)
         {
-            _db = db;
         }
     }
 }

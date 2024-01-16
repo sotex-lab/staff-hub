@@ -17,7 +17,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICustomEmailSender, CustomEmailSender>();
-builder.Services.AddTransient<CalendarFetchService>();
+builder.Services.AddTransient<ICalendarFetchService, CalendarFetchService>();
 
 var app = builder.Build();
 

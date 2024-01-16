@@ -7,10 +7,8 @@ namespace Persistence.Repositories
 {
     public class DaysTallyRepository : Repository<DaysTally>, IDayTally
     {
-        private ApplicationDbContext _db;
         public DaysTallyRepository(ApplicationDbContext db) : base(db)
         {
-            _db = db;
         }
     }
 }

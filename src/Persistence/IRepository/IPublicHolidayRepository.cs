@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Persistence.Contexts;
 
 namespace Persistence.IRepository
 {

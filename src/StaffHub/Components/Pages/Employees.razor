@@ -1,4 +1,5 @@
 @page "/employees"
+@using Persistence.IRepository
 @attribute [Authorize(Roles = SD.Role_Admin)]
 @rendermode InteractiveServer
 @inject IUnitOfWork _unitOfWork

@@ -5,17 +5,12 @@ using Persistence.IRepository;
 
 namespace Persistence.Repositories
 {
-    public class DayTallyRepository : Repository<DaysTally>, IDayTally
+    public class DaysTallyRepository : Repository<DaysTally>, IDayTally
     {
         private ApplicationDbContext _db;
-        public DayTallyRepository(ApplicationDbContext db) : base(db)
+        public DaysTallyRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
-        }
-
-        public List<DaysTally> TallyList()
-        {
-            return _db.DaysTallies.ToList();
         }
     }
 }

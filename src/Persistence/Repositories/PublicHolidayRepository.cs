@@ -16,10 +16,5 @@ namespace Persistence.Repositories
         {
             return _db.PublicHolidays.Count();
         }
-
-        public List<PublicHoliday> HolidayList()
-        {
-            return _db.PublicHolidays.ToList();
-        }
     }
 }

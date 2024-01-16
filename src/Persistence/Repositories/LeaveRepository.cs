@@ -11,10 +11,5 @@ namespace Persistence.Repositories
         {
             _db = db;
         }
-
-        public List<Leave> LeaveList()
-        {
-            return _db.Leaves.ToList();
-        }
     }
 }

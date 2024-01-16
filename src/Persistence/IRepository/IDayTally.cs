@@ -9,6 +9,5 @@ namespace Persistence.IRepository
 {
     public interface IDayTally : IRepository<DaysTally>
     {
-        List<DaysTally> TallyList();
     }
 }

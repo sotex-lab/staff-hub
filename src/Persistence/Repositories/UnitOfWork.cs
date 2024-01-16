@@ -18,7 +18,7 @@ namespace Persistence.Repositories
             Team = new TeamRepository(_db);
             Leave = new LeaveRepository(_db);
             PublicHoliday = new PublicHolidayRepository(_db);
-            DayTally = new DayTallyRepository(_db);
+            DayTally = new DaysTallyRepository(_db);
         }
 
         public void Save()

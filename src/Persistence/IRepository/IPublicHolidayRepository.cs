@@ -6,6 +6,5 @@ namespace Persistence.IRepository
     public interface IPublicHolidayRepository : IRepository<PublicHoliday>
     {
         int Count();
-        List<PublicHoliday> HolidayList();
     }
 }

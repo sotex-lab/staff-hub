@@ -50,8 +50,8 @@
 
 	private void ScheduleLeave()
 	{
-		var leaves = unitOfWork.Leave.LeaveList();
-		var dayTally = unitOfWork.DayTally.TallyList();
+		var leaves = unitOfWork.Leave.GetAll();
+		var dayTally = unitOfWork.DayTally.GetAll();
 		foreach (var item in leaves)
 		{
 			if (startDay >= item.StartDate && startDay <= item.EndDate)
@@ -133,7 +133,7 @@
 
 	private bool IsHoliday(DateOnly date)
 	{
-		var publicHolidays = unitOfWork.PublicHoliday.HolidayList();
+		var publicHolidays = unitOfWork.PublicHoliday.GetAll();
 		foreach(var item in publicHolidays)
 		{
 			if (date == item.StartDate)

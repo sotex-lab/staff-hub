@@ -4,9 +4,9 @@ using Persistence.IRepository;
 
 namespace Persistence.Repositories
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class LeaveRepository : Repository<Leave>, ILeaveRepository
     {
-        public UserRepository(ApplicationDbContext db) : base(db)
+        public LeaveRepository(ApplicationDbContext db) : base(db)
         {
         }
     }

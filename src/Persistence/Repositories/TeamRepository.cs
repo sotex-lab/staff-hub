@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Models;
+﻿using Domain.Models;
 using Persistence.Contexts;
-using Services.Interfaces.Repositories;
+using Persistence.IRepository;
 
 namespace Persistence.Repositories
 {

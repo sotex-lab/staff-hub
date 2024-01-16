@@ -1,4 +1,7 @@
+@using Persistence
+@using Persistence.Contexts
 @inherits LayoutComponentBase
+@inject ApplicationDbContext db
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject SignInManager<IdentityUser> SignInManager
 

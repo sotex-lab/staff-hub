@@ -1,0 +1,41 @@
+@page "/history"
+@inject ApplicationDbContext db
+@using Domain.Models
+@using Persistence.Contexts
+@rendermode InteractiveServer
+
+<h3>LeavesHistory</h3>
+<table border="1">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Amount</th>
+			<th>Timestamp</th>
+			<th>Action</th>
+			<th>UserID</th>
+			<th>LeaveID</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var tally in daysTallies)
+		{
+			<tr>
+				<td>@tally.Id</td>
+				<td>@tally.Amount</td>
+				<td>@tally.Timestamp.ToString("yyyy-MM-dd")</td>
+				<td>@tally.Action</td>
+				<td>@tally.UserId</td>
+				<td>@tally.LeaveId</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@code {
+	List<DaysTally> daysTallies;
+
+	protected override void OnInitialized()
+	{
+		daysTallies = db.DaysTallies.ToList();
+	}
+}

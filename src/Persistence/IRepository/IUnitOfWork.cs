@@ -1,6 +1,6 @@
 ﻿namespace Persistence.IRepository
 {
-    public interface IUnitOfWork 
+    public interface IUnitOfWork
     {
         ITeamRepository Team { get; }
         ILeaveRepository Leave { get; }

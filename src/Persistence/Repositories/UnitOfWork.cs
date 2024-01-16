@@ -11,6 +11,7 @@ namespace Persistence.Repositories
         public ILeaveRepository Leave { get; private set; }
         public IPublicHolidayRepository PublicHoliday { get; private set; }
         public IDayTally DayTally { get; private set; }
+        public IUserRepository User { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -19,6 +20,7 @@ namespace Persistence.Repositories
             Leave = new LeaveRepository(_db);
             PublicHoliday = new PublicHolidayRepository(_db);
             DayTally = new DaysTallyRepository(_db);
+            User = new UserRepository(_db);
         }
 
         public void Save()

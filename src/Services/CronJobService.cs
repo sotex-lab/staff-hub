@@ -20,7 +20,7 @@ namespace Services
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if(_unitOfWork.PublicHoliday.Count() == 0)
+            if (_unitOfWork.PublicHoliday.Count() == 0)
                 await _calendarFetchService.GetAndSaveCalendarEventsAsync();
 
             using var timer = new CronTimer("0 0 1 * *", TimeZoneInfo.Local);

@@ -27,11 +27,8 @@ namespace Services
 
         public async Task GetAndSaveCalendarEventsAsync()
         {
-            var response = await request.ExecuteAsync();
             DateTime startPeriod;
             DateTime endPeriod;
-
-            int s = _unitOfWork.PublicHoliday.Count();
 
             if (_unitOfWork.PublicHoliday.Count() == 0)
             {
@@ -40,10 +37,15 @@ namespace Services
             }
             else
             {
+                var lastInDb = _unitOfWork.PublicHoliday.GetAll().OrderByDescending(x => x.EndDate).First();
                 startPeriod = DateTime.Now.AddMonths(13);
                 endPeriod = startPeriod.AddMonths(1);
+
+                if (lastInDb.EndDate >= DateOnly.FromDateTime(startPeriod))
+                    return;
             }
 
+            var response = await request.ExecuteAsync();
             foreach (var item in Compare(startPeriod, endPeriod, response))
             {
                 PublicHoliday publicHoliday = new PublicHoliday

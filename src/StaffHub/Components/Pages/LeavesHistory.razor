@@ -1,41 +1,90 @@
 @page "/history"
-@inject ApplicationDbContext db
-@using Domain.Models
-@using Persistence.Contexts
 @rendermode InteractiveServer
 
-<h3>LeavesHistory</h3>
-<table border="1">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Amount</th>
-			<th>Timestamp</th>
-			<th>Action</th>
-			<th>UserID</th>
-			<th>LeaveID</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var tally in daysTallies)
-		{
-			<tr>
-				<td>@tally.Id</td>
-				<td>@tally.Amount</td>
-				<td>@tally.Timestamp.ToString("yyyy-MM-dd")</td>
-				<td>@tally.Action</td>
-				<td>@tally.UserId</td>
-				<td>@tally.LeaveId</td>
-			</tr>
-		}
-	</tbody>
-</table>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="panel.css">
+<title>History</title>
+
+<div class="panel">
+	<div class="container">
+		<div class="employee">
+			History
+		</div>
+		<div class="commands">
+			<div class="command">
+				<div class="year_box">
+					<label class="year">Year:</label>
+					<select class="choose_year">
+						@for (int i = 0; i < 3; i++)
+						{
+							<option class="year_option">@(DateTime.Now.Year + @i)</option>
+						}
+					</select>
+				</div>
+				<div class="filter_box">
+					<label class="filter">Filter by Status:</label>
+					<select class="filter_status">
+						<option class="status_option">Pending</option>
+						<option class="status_option">Approved</option>
+						<option class="status_option">Rejected</option>
+					</select>
+				</div>
+				<div>
+					<input class="search" placeholder="Search" type="search">
+				</div>
+			<button class="btn1" id="add_new" style="width: 140px">
+				Make a Request
+			</button>
+			</div>
+		</div>
+		<div class="lista">
+			<table>
+				<tr>
+					<th>Date of request</th>
+					<th>Day(s) Requested</th>
+					<th>Period</th>
+					<th>Used</th>
+					<th>Status</th>
+				</tr>
+
+				<tr>
+					<td>9.1.2024</td>
+					<td>5</td>
+					<td>11.03-19.03.2024</td>
+					<td>Yes</td>
+					<td>
+						<div class="status @getStatusColor(status)">Rejected</div>
+						<br />
+						<span>Some text</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
 
 @code {
-	List<DaysTally> daysTallies;
 
-	protected override void OnInitialized()
+	string status = "Rejected";
+	string getStatusColor(string status)
 	{
-		daysTallies = db.DaysTallies.ToList();
+		if (status == "Approved")
+		{
+			return "approved-color"; 
+		}
+		else if (status == "Rejected")
+		{
+			return "rejected-color"; 
+		}
+		else
+		{
+			return "status"; 
+		}
 	}
+	
+
+
 }

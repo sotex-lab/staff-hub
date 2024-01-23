@@ -1,0 +1,54 @@
+.content {
+    display: none;
+    width: 50px;
+    height: 32px;
+    padding: 0px 8px;
+    align-items: center;
+    font-family: Inter;
+    gap: 8px;
+    border-left: 2px solid #EF4F27;
+    background: #FBFBFB;
+}
+
+.edit{
+    background-color:transparent;
+    border: 0;
+    margin-top:8px;
+    color: #222;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.btn:hover {
+    background: linear-gradient(0deg, #FFEEE9, #FFEEE9);
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn {
+    display: flex;
+    height: 30px;
+    width: auto;
+    font-family: Inter;
+    row-gap: 8px;
+    border: 0;
+    background-color: transparent;
+}
+
+@media (max-width: 450px) {
+    svg{
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    svg{
+        display: none;
+    }
+
+    .content {
+        width: 40px;
+    }
+}

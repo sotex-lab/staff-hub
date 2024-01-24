@@ -1,0 +1,146 @@
+nav {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 52.04px;
+    border-top: 4px solid rgba(14, 206, 228, 0.00);
+    background: var(--Shades-White, #FFF);
+    box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+    margin-top: 52.04px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.ib16 {
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    position: relative;
+    bottom: 15px;
+    color: #000;
+    margin-top: 200px;
+    text-align: center;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px;
+    gap: 24px;
+}
+
+.rb28 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: #222;
+}
+
+.ib18 {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #222;
+}
+
+.prop-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.prop {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+label {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #222;
+}
+
+.ir14 {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #EF3939;
+}
+
+input {
+    width: 326px;
+    max-width: 80vw;
+    height: 48px;
+    border-radius: 4px;
+    border: 1px solid #999;
+    font-family: Inter;
+    font-size: 14px;
+    padding: 8px 36px 8px 16px;
+}
+
+    input:focus {
+        outline: none;
+        border: 1px solid #4F8BFF;
+    }
+
+.btn {
+    width: 326px;
+    max-width: 80vw;
+    height: 48px;
+    border-radius: 4px;
+    border: 1px solid #EF4F27;
+    background-color: transparent;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 500;
+    color: #EF4F27;
+}
+
+    .btn:hover {
+        background: #FFEEE9;
+    }
+
+svg {
+    max-width: 100%;
+}
+
+.password-container {
+    position: relative;
+    display: inline-block;
+}
+
+#closed-eye {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+#opened-eye {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}

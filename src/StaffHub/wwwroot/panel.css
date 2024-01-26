@@ -99,7 +99,7 @@
 }
 
 .filter_status {
-    width: 250px;
+    width: 150px;
     height: 32px;
     padding: 8px;
     border-radius: 4px;
@@ -135,7 +135,7 @@
     display: flex;
     padding: 0px 16px;
     align-items: center;
-    width: 94px;
+    width: 95px;
     height: 32px;
     font-family: 'Inter';
     border-radius: 4px;
@@ -152,6 +152,27 @@
         background: linear-gradient(0deg, #FFEEE9, #FFEEE9);
         cursor: pointer;
     }
+
+.btn2 {
+    display: flex;
+    padding: 0px 16px;
+    align-items: center;
+    width: 130px;
+    height: 32px;
+    font-family: 'Inter';
+    border-radius: 4px;
+    border: 1px;
+    color: #EF4F27;
+    background: white;
+    border-color: #EF4F27;
+    justify-content: center;
+    border: 1px solid #EF4F27;
+}
+
+.btn2:hover {
+    background: linear-gradient(0deg, #FFEEE9, #FFEEE9);
+    cursor: pointer;
+}
 
 .lista {
     display: flex;
@@ -255,6 +276,7 @@ tr, td {
         align-items: flex-start;
         gap: 20px;
         padding: 1px;
+        width: 100%;
     }
 
     .lista {

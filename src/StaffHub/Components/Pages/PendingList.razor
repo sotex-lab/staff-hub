@@ -1,0 +1,76 @@
+@page "/pendingList"
+@using Persistence.IRepository
+@attribute [Authorize(Roles = SD.Role_Admin)]
+@rendermode InteractiveServer
+@inject IUnitOfWork _unitOfWork
+@inject UserManager<IdentityUser> _userManager
+@inject NavigationManager _navigationManager
+
+<link rel="stylesheet" href="panel.css">
+<link rel="stylesheet" href="addNew.css">
+<link rel="stylesheet" href="actions.css">
+
+<div class="panel">
+	<div class="container">
+		<div class="employee">
+			Requests
+		</div>
+		<div class="commands">
+		</div>
+		<div class="lista">
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Used annual leave days</th>
+					<th>Day(s) Requested</th>
+					<th>Description</th>
+					<th></th>
+				</tr>
+				@foreach (var dt in DaysTallies)
+				{
+					<tr>
+						<td>@dt.User.FullName</td>
+						<td>0/20</td>
+						<td>@dt.Amount</td>
+						<td>@dt.Leave.Description</td>
+						<td>
+							<button class="btn2" id="act_btn" @onclick="(() => Action(dt.UserId))">
+								Check request
+							</button>
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</div>
+</div>
+
+@code {
+	private string phone;
+	private string fullName;
+	private string email;
+	private string team;
+	private string role;
+	private string status;
+	private string search;
+	private int year;
+	private int teamId;
+
+	private List<DaysTally> DaysTallies { get; set; } = new List<DaysTally>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		foreach (var day in _unitOfWork.DayTally.GetAll(includeProperties: "User,Leave"))
+		{
+			if (day.Leave.Status == "Pending")
+			{
+				DaysTallies.Add(day);
+			}
+		}
+	}
+
+	private void Action(string userId)
+	{
+		_navigationManager.NavigateTo("/history");
+	}
+}

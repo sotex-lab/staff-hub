@@ -244,33 +244,35 @@
 		}
 	}
 
-	private void CreateUser()
+	private async Task CreateUser()
 	{
-		teams = _unitOfWork.Team.GetAll();
+		bool teamExists = _unitOfWork.Team.GetAll().Any(x => x.Name.ToLower() == team.ToLower());
+		bool mailExists = _unitOfWork.User.GetAll().Any(x => x.Email == email);
 
-		var newTeam = new Team
+		if (mailExists)
 		{
-			Name = team
-		};
-
-		int s = newTeam.Id;
-
-		bool teamExists = false;
-		foreach (var t in teams)
-		{
-			if (team.ToLower() == t.Name.ToLower())
-			{
-				teamId = t.Id;
-				teamExists = true;
-				break;
-			}
+			CloseModal();
+			return;
 		}
 
 		if (!teamExists)
 		{
-			teamId = newTeam.Id;
+			var newTeam = new Team
+				{
+					Name = team.ToLower()
+				};
 			_unitOfWork.Team.Add(newTeam);
 			_unitOfWork.Save();
+			teamId = newTeam.Id;
+		}
+		else
+		{
+			teams = _unitOfWork.Team.GetAll();
+			foreach (var t in teams)
+			{
+				if (team.ToLower() == t.Name.ToLower())
+					teamId = t.Id;
+			}
 		}
 
 		var newUser = new User
@@ -285,13 +287,15 @@
 		_unitOfWork.User.Add(newUser);
 		_unitOfWork.Save();
 
-		_userManager.AddToRoleAsync(newUser, position);
+		var code = await _userManager.GeneratePasswordResetTokenAsync(newUser);
+		code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+		var callbackUrl = "Identity/Account/ResetPassword";
+		await _customEmailSender.SendResetPasswordTokenAsync(newUser.Email, callbackUrl);
 
-		CloseModal();
-		JSRuntime.InvokeVoidAsync("refreshPage");
+		await CloseModal();
 	}
 
-	private void CloseModal()
+	private async Task CloseModal()
 	{
 		fullName = "";
 		email = "";
@@ -299,7 +303,7 @@
 		phone = "";
 		team = "";
 
-		JSRuntime.InvokeVoidAsync("closeModal");
+		await JSRuntime.InvokeVoidAsync("closeModal");
 	}
 
 	private void ShowActionMenu(string userId)

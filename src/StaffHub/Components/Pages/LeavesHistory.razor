@@ -1,5 +1,8 @@
 @page "/history"
+@using Persistence.IRepository
 @rendermode InteractiveServer
+@inject NavigationManager _navigationManager
+@inject IUnitOfWork _unitOfWork
 
 
 <meta charset="UTF-8">
@@ -13,31 +16,9 @@
 			History
 		</div>
 		<div class="commands">
-			<div class="command">
-				<div class="year_box">
-					<label class="year">Year:</label>
-					<select class="choose_year">
-						@for (int i = 0; i < 3; i++)
-						{
-							<option class="year_option">@(DateTime.Now.Year + @i)</option>
-						}
-					</select>
-				</div>
-				<div class="filter_box">
-					<label class="filter">Filter by Status:</label>
-					<select class="filter_status">
-						<option class="status_option">Pending</option>
-						<option class="status_option">Approved</option>
-						<option class="status_option">Rejected</option>
-					</select>
-				</div>
-				<div>
-					<input class="search" placeholder="Search" type="search">
-				</div>
-			<button class="btn1" id="add_new" style="width: 140px">
+			<button class="btn1" id="add_new" style="width: 140px" @onclick="MakeRequest">
 				Make a Request
 			</button>
-			</div>
 		</div>
 		<div class="lista">
 			<table>
@@ -48,18 +29,31 @@
 					<th>Used</th>
 					<th>Status</th>
 				</tr>
-
-				<tr>
-					<td>9.1.2024</td>
-					<td>5</td>
-					<td>11.03-19.03.2024</td>
-					<td>Yes</td>
-					<td>
-						<div class="status @getStatusColor(status)">Rejected</div>
-						<br />
-						<span>Some text</span>
-					</td>
-				</tr>
+				@foreach (var l in DaysTallies)
+				{
+					<tr>
+						<td>@l.Timestamp.ToShortDateString()</td>
+						<td>@l.Amount</td>
+						<td>@l.Leave.StartDate <br /> @l.Leave.EndDate</td>
+						@if (l.Leave.EndDate < DateOnly.FromDateTime(DateTime.Now))
+						{
+							<td>Yes</td>
+						}
+						else if (l.Leave.Status == "Rejected" || l.Leave.Status == "Pending")
+						{
+							<td>No</td>
+						}
+						else
+						{
+							<td>No</td>
+						}
+						<td>
+							<div class="status @getStatusColor(l.Leave.Status)">@l.Leave.Status</div>
+							<br />
+							<span>@l.Leave.Description</span>
+						</td>
+					</tr>
+				}
 			</table>
 		</div>
 	</div>
@@ -67,24 +61,37 @@
 
 
 @code {
+	string status;
 
-	string status = "Rejected";
+	private List<DaysTally> DaysTallies { get; set; } = new List<DaysTally>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		foreach (var leave in _unitOfWork.DayTally.GetAll(includeProperties: "Leave").ToList())
+		{
+			DaysTallies.Add(leave);
+		}
+	}
+
 	string getStatusColor(string status)
 	{
 		if (status == "Approved")
 		{
-			return "approved-color"; 
+			return "approved-color";
 		}
 		else if (status == "Rejected")
 		{
-			return "rejected-color"; 
+			return "rejected-color";
 		}
 		else
 		{
-			return "status"; 
+			return "status";
 		}
 	}
-	
 
+	private void MakeRequest()
+	{
+		_navigationManager.NavigateTo("/scheduleLeave");
+	}
 
 }

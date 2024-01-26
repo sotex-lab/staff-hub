@@ -88,6 +88,17 @@ input {
     border: 1px solid #4F8BFF;
 }
 
+.role {
+    width: 102%;
+    height: 40px;
+    border-radius: 4px;
+    justify-content: space-between;
+    padding: 8px, 16px, 8px, 16px;
+    color: #000000;
+    border: 1px solid #999999;
+    background-color: white;
+}
+
 .save {
     width: 65px;
     height: 40px;
@@ -156,9 +167,10 @@ input {
         background-color: #fefefe;
         border: 1px solid #888;
         width: 60%;
-        height: 350px;
+        height: 430px;
         border-radius: 8px;
         flex-wrap: wrap;
+        overflow-x: hidden;
         gap: 80px;
     }
 
@@ -171,8 +183,13 @@ input {
         align-items: center;
         height: 65px;
         width: 100%;
-        gap: 16px;
+        gap: 10px;
         flex-wrap: wrap;
+    }
+
+    .prop3 {
+        padding-top: 75px;
+        padding-left: 4px;
     }
 
     .modal {
@@ -191,10 +208,11 @@ input {
         background-color: #fefefe;
         border: 1px solid #888;
         width: 60%;
-        height: 350px;
+        height: 430px;
         border-radius: 8px;
         flex-wrap: wrap;
         gap: 80px;
+        overflow-x: hidden;
     }
 
     #emp {
@@ -208,6 +226,11 @@ input {
         width: 100%;
         gap: 16px;
         flex-wrap: wrap;
+    }
+
+    .prop3 {
+        padding-top: 75px;
+        padding-left: 4px;
     }
 
     .modal {

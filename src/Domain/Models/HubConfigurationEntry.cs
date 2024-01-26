@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class Configuration
+    public class HubConfigurationEntry
     {
         [Key]
         public int Id { get; set; }

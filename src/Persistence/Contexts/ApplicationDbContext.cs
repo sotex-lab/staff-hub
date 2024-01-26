@@ -16,7 +16,7 @@ namespace Persistence.Contexts
         public DbSet<DaysTally> DaysTallies { get; set; }
         public DbSet<PublicHoliday> PublicHolidays { get; set; }
         public DbSet<Team> Teams { get; set; }
-        public DbSet<Configuration> Configurations { get; set; }
+        public DbSet<HubConfigurationEntry> HubConfigurationEntries { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -34,8 +34,8 @@ namespace Persistence.Contexts
                 new IdentityRole { Id = "6e875cce-3fc3-4ad3-87f5-9672ddeaa099", Name = "RegularEmployee", NormalizedName = "REGULAREMPLOYEE" }
                 );
 
-            builder.Entity<Configuration>().HasData(
-                new Configuration { Id = 1, Name = "AnnualLeaveDays", Value = "20" }
+            builder.Entity<HubConfigurationEntry>().HasData(
+                new HubConfigurationEntry { Id = 1, Name = "AnnualLeaveDays", Value = "20" }
                 );
         }
 

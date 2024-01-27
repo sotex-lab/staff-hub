@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 100px;
+    gap: 8px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ib40 {
+    font-family: Inter;
+    font-size: 40px;
+    font-weight: 400;
+    color: #222;
+}
+
+.ib16 {
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    color: #222;
+}
+
+.overall {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.unit {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.bar {
+    width: 1px;
+    height: 70px;
+    background: #E7E7E7;
+    border-radius: 4px;
+    border: 1px solid #E7E7E7;
+}
+
+.rb40 {
+    font-family: Roboto;
+    font-size: 40px;
+    font-weight: 400;
+    color: #222;
+}
+
+.ib12 {
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    color: #222;
+}
+
+.btn {
+    width: 139px;
+    height: 40px;
+    color: #EF4F27;
+    border-radius: 4px;
+    border: 1px solid #EF4F27;
+    background: transparent;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    color: #EF4F27;
+    align-self: center;
+}
+
+    .btn:hover {
+        background: #FFEEE9;
+    }
+
+.group {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+@media only screen and (max-width: 900px) {
+    .group {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+.mark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    height: 24px;
+    padding: 8px;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    color: #222;
+}
+
+.blue {
+    background: var(--Primary-200, #D0D3FD);
+}
+
+.light-blue {
+    border-radius: 4px;
+    background: #B3F6FF;
+}
+
+.purple {
+    border-radius: 4px;
+    background: #F3C6FF;
+}
+
+.yellow {
+    border-radius: 4px;
+    background: var(--Warning-200, #FFE0B3);
+}
+
+.green {
+    border-radius: 4px;
+    background: var(--Success-200, #B8F9DA);
+}
+
+.red {
+    border-radius: 4px;
+    background: var(--Error-200, #FAC4C4);
+}
+
+.calendar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    padding: 0 100px;
+}
+
+.month {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+}
+
+    .month > span {
+        font-family: Inter;
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+    }
+
+tr > th {
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+}
+
+table {
+    margin-top: 10px;
+}
+
+tr > td {
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.day:enabled {
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    background-color: transparent;
+    border: 2px solid transparent;
+    width: 28px;
+    height: 32px;
+}
+
+.day:hover:enabled {
+    border: 2px solid var(--Primary-200, #D0D3FD);
+}
+
+button:disabled,
+button[disabled] {
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 400;
+    background-color: transparent;
+    border: 2px solid transparent;
+    width: 28px;
+    height: 32px;
+    color: #222;
+}
+
+label {
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    color: #222;
+}
+
+input {
+    width: 640px;
+    max-width: 50vw;
+    height: 48px;
+    border-radius: 4px;
+    border: 1px solid #999999;
+    padding: 8px 16px;
+}
+
+    input:focus {
+        outline: none;
+        border: 1px solid #4F8BFF;
+    }
+
+.row-center {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+@media only screen and (max-width: 900px) {
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 40px;
+        gap: 8px;
+    }
+
+    .calendar {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 0 40px;
+    }
+}

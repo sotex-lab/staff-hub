@@ -7,7 +7,7 @@
 @using System.Text
 @attribute [Authorize(Roles = SD.Role_Admin)]
 @inject IUnitOfWork _unitOfWork
-@inject ICustomEmailSender _customEmailSender
+@inject ISmtpEmailSender _smtpEmailSender
 @inject NavigationManager _navigationManager
 @inject RoleManager<IdentityRole> _roleManager
 @inject UserManager<IdentityUser> _userManager
@@ -179,99 +179,93 @@
 </script>
 
 @code {
-	private string phone;
-	private string fullName;
-	private string email;
-	private string team;
-	private string searchTerm;
-	private int teamId;
-	private string position = "RegularEmployee";
+    private string phone;
+    private string fullName;
+    private string email;
+    private string team;
+    private string searchTerm;
+    private int teamId;
+    private string position = "RegularEmployee";
 
-	private IEnumerable<Team> teams;
-	private List<User> Users { get; set; } = new List<User>();
-	private List<string> UserRoles { get; set; } = new List<string>();
-	private List<User> filteredUsers;
-	private List<User> temp;
+    private IEnumerable<Team> teams;
+    private List<User> Users { get; set; } = new List<User>();
+    private List<string> UserRoles { get; set; } = new List<string>();
+    private List<User> filteredUsers;
+    private List<User> temp;
 
-	private void UpdatePosition(ChangeEventArgs e)
-	{
-		position = e.Value.ToString();
-	}
+    private void UpdatePosition(ChangeEventArgs e)
+    {
+        position = e.Value.ToString();
+    }
 
-	protected override async Task OnInitializedAsync()
-	{
-		foreach (var user in _unitOfWork.User.GetAll(includeProperties: "Team").ToList())
-		{
-			Users.Add(user);
-			var roles = await _userManager.GetRolesAsync(user);
-			UserRoles.Add(roles.First());
-		}
-		LoadData();
-		OnParametersSet();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        foreach (var user in _unitOfWork.User.GetAll(includeProperties: "Team").ToList())
+        {
+            Users.Add(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            UserRoles.Add(roles.First());
+        }
+        LoadData();
+        OnParametersSet();
+    }
 
-	private async void LoadData()
-	{
-		filteredUsers = Users;
-		ApplyFilter();
-	}
+    private async void LoadData()
+    {
+        filteredUsers = Users;
+        ApplyFilter();
+    }
 
-	protected override void OnParametersSet()
-	{
-		ApplyFilter();
-	}
+    protected override void OnParametersSet()
+    {
+        ApplyFilter();
+    }
 
-	private void OnSearchInput(ChangeEventArgs e)
-	{
-		searchTerm = e.Value.ToString();
-		ApplyFilter();
-	}
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        searchTerm = e.Value.ToString();
+        ApplyFilter();
+    }
 
-	private void ApplyFilter()
-	{
-		if (string.IsNullOrEmpty(searchTerm))
-		{
-			Users = filteredUsers;
-		}
-		else
-		{
-			temp = Users
-				.Where(u => u.FullName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-							u.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-							u.Team.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+    private void ApplyFilter()
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            Users = filteredUsers;
+        }
+        else
+        {
+            temp = Users
+                .Where(u => u.FullName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            u.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            u.Team.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
 
-			Users = temp;
-		}
-	}
+            Users = temp;
+        }
+    }
 
-	private void CreateUser()
-	{
-		teams = _unitOfWork.Team.GetAll();
+    private async Task CreateUser()
+    {
+        var teamExists = _unitOfWork.Team.GetAll().FirstOrDefault(x => x.Name == team.ToLower());
+        bool mailExists = _unitOfWork.User.GetAll().Any(x => x.Email == email);
 
-		var newTeam = new Team
-		{
-			Name = team
-		};
+        teamId = teamExists.Id;
+        if (mailExists)
+        {
+            await CloseModal();
+            return;
+        }
 
-		int s = newTeam.Id;
-
-		bool teamExists = false;
-		foreach (var t in teams)
-		{
-			if (team.ToLower() == t.Name.ToLower())
-			{
-				teamId = t.Id;
-				teamExists = true;
-				break;
-			}
-		}
-
-		if (!teamExists)
-		{
-			teamId = newTeam.Id;
-			_unitOfWork.Team.Add(newTeam);
-			_unitOfWork.Save();
-		}
+        if (teamExists == null)
+        {
+            var newTeam = new Team
+                {
+					Name = team.ToLower()
+                };
+            _unitOfWork.Team.Add(newTeam);
+            _unitOfWork.Save();
+            teamId = newTeam.Id;
+        }
 
 		var newUser = new User
 			{
@@ -285,13 +279,15 @@
 		_unitOfWork.User.Add(newUser);
 		_unitOfWork.Save();
 
-		_userManager.AddToRoleAsync(newUser, position);
+		var code = await _userManager.GeneratePasswordResetTokenAsync(newUser);
+		code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+		var callbackUrl = "Identity/Account/ResetPassword";
+        await _smtpEmailSender.SendResetPasswordTokenAsync(newUser.Email, callbackUrl);
 
-		CloseModal();
-		JSRuntime.InvokeVoidAsync("refreshPage");
+		await CloseModal();
 	}
 
-	private void CloseModal()
+	private async Task CloseModal()
 	{
 		fullName = "";
 		email = "";
@@ -299,7 +295,7 @@
 		phone = "";
 		team = "";
 
-		JSRuntime.InvokeVoidAsync("closeModal");
+		await JSRuntime.InvokeVoidAsync("closeModal");
 	}
 
 	private void ShowActionMenu(string userId)

@@ -179,101 +179,93 @@
 </script>
 
 @code {
-	private string phone;
-	private string fullName;
-	private string email;
-	private string team;
-	private string searchTerm;
-	private int teamId;
-	private string position = "RegularEmployee";
+    private string phone;
+    private string fullName;
+    private string email;
+    private string team;
+    private string searchTerm;
+    private int teamId;
+    private string position = "RegularEmployee";
 
-	private IEnumerable<Team> teams;
-	private List<User> Users { get; set; } = new List<User>();
-	private List<string> UserRoles { get; set; } = new List<string>();
-	private List<User> filteredUsers;
-	private List<User> temp;
+    private IEnumerable<Team> teams;
+    private List<User> Users { get; set; } = new List<User>();
+    private List<string> UserRoles { get; set; } = new List<string>();
+    private List<User> filteredUsers;
+    private List<User> temp;
 
-	private void UpdatePosition(ChangeEventArgs e)
-	{
-		position = e.Value.ToString();
-	}
+    private void UpdatePosition(ChangeEventArgs e)
+    {
+        position = e.Value.ToString();
+    }
 
-	protected override async Task OnInitializedAsync()
-	{
-		foreach (var user in _unitOfWork.User.GetAll(includeProperties: "Team").ToList())
-		{
-			Users.Add(user);
-			var roles = await _userManager.GetRolesAsync(user);
-			UserRoles.Add(roles.First());
-		}
-		LoadData();
-		OnParametersSet();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        foreach (var user in _unitOfWork.User.GetAll(includeProperties: "Team").ToList())
+        {
+            Users.Add(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            UserRoles.Add(roles.First());
+        }
+        LoadData();
+        OnParametersSet();
+    }
 
-	private async void LoadData()
-	{
-		filteredUsers = Users;
-		ApplyFilter();
-	}
+    private async void LoadData()
+    {
+        filteredUsers = Users;
+        ApplyFilter();
+    }
 
-	protected override void OnParametersSet()
-	{
-		ApplyFilter();
-	}
+    protected override void OnParametersSet()
+    {
+        ApplyFilter();
+    }
 
-	private void OnSearchInput(ChangeEventArgs e)
-	{
-		searchTerm = e.Value.ToString();
-		ApplyFilter();
-	}
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        searchTerm = e.Value.ToString();
+        ApplyFilter();
+    }
 
-	private void ApplyFilter()
-	{
-		if (string.IsNullOrEmpty(searchTerm))
-		{
-			Users = filteredUsers;
-		}
-		else
-		{
-			temp = Users
-				.Where(u => u.FullName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-							u.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-							u.Team.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+    private void ApplyFilter()
+    {
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            Users = filteredUsers;
+        }
+        else
+        {
+            temp = Users
+                .Where(u => u.FullName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            u.Email.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            u.Team.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
 
-			Users = temp;
-		}
-	}
+            Users = temp;
+        }
+    }
 
-	private async Task CreateUser()
-	{
-		bool teamExists = _unitOfWork.Team.GetAll().Any(x => x.Name.ToLower() == team.ToLower());
-		bool mailExists = _unitOfWork.User.GetAll().Any(x => x.Email == email);
+    private async Task CreateUser()
+    {
+        var teamExists = _unitOfWork.Team.GetAll().FirstOrDefault(x => x.Name == team.ToLower());
+        bool mailExists = _unitOfWork.User.GetAll().Any(x => x.Email == email);
 
-		if (mailExists)
-		{
-			CloseModal();
-			return;
-		}
+        teamId = teamExists.Id;
+        if (mailExists)
+        {
+            CloseModal();
+            return;
+        }
 
-		if (!teamExists)
-		{
-			var newTeam = new Team
-				{
+        if (teamExists == null)
+        {
+            var newTeam = new Team
+                {
 					Name = team.ToLower()
-				};
-			_unitOfWork.Team.Add(newTeam);
-			_unitOfWork.Save();
-			teamId = newTeam.Id;
-		}
-		else
-		{
-			teams = _unitOfWork.Team.GetAll();
-			foreach (var t in teams)
-			{
-				if (team.ToLower() == t.Name.ToLower())
-					teamId = t.Id;
-			}
-		}
+                };
+            _unitOfWork.Team.Add(newTeam);
+            _unitOfWork.Save();
+            teamId = newTeam.Id;
+        }
 
 		var newUser = new User
 			{

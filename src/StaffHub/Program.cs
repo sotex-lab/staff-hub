@@ -20,7 +20,6 @@ builder.Logging.AddSimpleConsole(x =>
 });
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<ICustomEmailSender, CustomEmailSender>();
 builder.Services.AddTransient<ICalendarFetchService, CalendarFetchService>();
 builder.Services.AddHostedService<CalendarSyncher>();
 
@@ -33,6 +32,11 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     app.UseHsts();
+}
+
+if (app.Environment.IsDevelopment())
+{
+    builder.Services.AddScoped<ISmtpEmailSender, SmtpEmailSender>();
 }
 
 app.UseHttpsRedirection();

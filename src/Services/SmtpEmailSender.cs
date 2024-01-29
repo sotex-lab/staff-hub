@@ -6,7 +6,7 @@ using Persistence.IRepository;
 
 namespace Services
 {
-    public class CustomEmailSender : ICustomEmailSender
+    public class SmtpEmailSender : ISmtpEmailSender
     {
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {

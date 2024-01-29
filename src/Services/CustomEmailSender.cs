@@ -33,7 +33,7 @@ namespace Services
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 Port = 25,
             });
-            
+
             Email.DefaultSender = sender;
 
             var sendingMail = await Email
@@ -42,7 +42,7 @@ namespace Services
                 .Subject(subject)
                 .Body(message)
                 .SendAsync();
-            
+
         }
     }
 }
